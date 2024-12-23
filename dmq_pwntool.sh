@@ -56,24 +56,56 @@ port_scann(){
 }
 
 os_discovery(){
-	echo -e "\n[${ORANGE}PI-004${END}] ${BLUE}REALIZANDO DETECCION DE SISTEMA OPERATIVO${END}"
-	timeout 1 ping -c 1 $1 | grep -oP "ttl=.*" | awk '{print $1}' | tr -d 'ttl=' &>/dev/null
+    echo -e "\n[${ORANGE}PI-004 PI-022${END}] ${BLUE}REALIZANDO DETECCION DE SISTEMA OPERATIVO${END}"
+    timeout 1 ping -c 1 $1 | grep -oP "ttl=.*" | awk '{print $1}' | tr -d 'ttl=' &>/dev/null
 
-	if [ $? -eq 0 ];then
-		ttl_value=$(timeout 1 ping -c 1 $1 | grep -oP "ttl=.*" | awk '{print $1}' | tr -d 'ttl=')
-		if [ $ttl_value -le 64 ];then
-			echo -e "[${ORANGE}+${END}] TTL DE $ttl_value SISTEMA OPERATIVO ${ORANGE}LINUX${END}"
-		else
-			echo -e "[${GREEN}+${END}] TTL DE $ttl_value SISTEMA OPERATIVO ${ORANGE}WINDOWS${END}"
-		fi
-	fi
-	nmap -O --osscan-guess $1 | grep -i "\bOS\b" | grep -v nmap
+    if [[ $? -eq 0 ]]; then
+        ttl_value=$(timeout 1 ping -c 1 $1 | grep -oP "ttl=.*" | awk '{print $1}' | tr -d 'ttl=')
+        if [[ -n "$ttl_value" ]]; then  # Verifica si ttl_value no está vacío
+            if [[ $ttl_value -le 64 ]]; then
+                echo -e "[${ORANGE}+${END}] TTL DE $ttl_value SISTEMA OPERATIVO ${ORANGE}LINUX${END}"
+            else
+                echo -e "[${ORANGE}+${END}] TTL DE $ttl_value SISTEMA OPERATIVO ${ORANGE}WINDOWS${END}"
+            fi
+        else
+            echo -e "[${RED}!${END}] ${RED}No se pudo determinar el TTL. Verifica la conectividad.${END}"
+        fi
+    else
+        echo -e "[${RED}!${END}] ${RED}No se pudo realizar el ping. Verifica la conectividad.${END}"
+    fi
+    nmap -O --osscan-guess $1 | grep -i "\bOS\b" | grep -v nmap
 }
+
+show_wifi(){
+	echo -e "\n[${ORANGE}PI-005${END}] ${BLUE}DETECCION Y EXPLORACION DE ENCRIPTACION EN REDES WIFI${END}"
+	echo -e "[${ORANGE}+${END}] EL DISPOSITIVO SE ENCUENTRA CONECTADO EN LA RED ${ORANGE}$(nmcli connection show --active | awk '{print $1}' | head -n2 | grep -v NAME)${END} A TRAVEZ DE ${ORANGE}$(nmcli connection show --active | awk '{print $3}' | head -n2 | grep -v TYPE)${END}" 
+	nmcli dev wifi list | head -n 15
+}
+
+web_identification(){
+    echo -e "\n[${ORANGE}PI-006${END}] ${BLUE}IDENTIFICACION Y EXPLORACION DE APLICACIONES WEB${END}"
+	cat ports | grep "http" &>/dev/null
+	if [ $? -eq 0 ];then
+		http_ports=$(cat ports | grep "http" | awk '{print $1, $3}' | grep -vi not | grep http | awk -F '/' '{print $1}')
+
+		for i in $http_ports;do
+			if [ $i -eq 443 ];then
+				whatweb https://$1
+			fi
+			whatweb http://$1:$i
+		done
+	else
+		echo -e "[${RED}!${END}] ${RED}NO SE IDENTIFICARON SERVICIOS HTTP HABIERTOS${END}"
+	fi
+}
+
 
 process(){
 	banner
 	port_scann $1
 	os_discovery $1
+	show_wifi
+	web_identification $1
 }
 
 parameter_counter=0; while getopts "t:h" arg; do
