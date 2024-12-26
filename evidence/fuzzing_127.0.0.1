@@ -1,0 +1,11 @@
+# Nmap 7.94SVN scan initiated Thu Dec 26 14:12:57 2024 as: /usr/lib/nmap/nmap --script http-enum -p 22,8080 -oN evidence/fuzzing_127.0.0.1 127.0.0.1
+Nmap scan report for localhost (127.0.0.1)
+Host is up (0.00015s latency).
+
+PORT     STATE SERVICE
+22/tcp   open  ssh
+8080/tcp open  http-proxy
+| http-enum: 
+|_  /icons/: Potentially interesting folder
+
+# Nmap done at Thu Dec 26 14:13:04 2024 -- 1 IP address (1 host up) scanned in 7.31 seconds

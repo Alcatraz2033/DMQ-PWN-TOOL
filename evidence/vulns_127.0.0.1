@@ -1,0 +1,31 @@
+# Nmap 7.94SVN scan initiated Thu Dec 26 14:03:51 2024 as: /usr/lib/nmap/nmap --script vuln -p 22,8080 -oN evidence/vulns_127.0.0.1 127.0.0.1
+Pre-scan script results:
+| broadcast-avahi-dos: 
+|   Discovered hosts:
+|     224.0.0.251
+|   After NULL UDP avahi packet DoS (CVE-2011-1002).
+|_  Hosts are all up (not vulnerable).
+Nmap scan report for localhost (127.0.0.1)
+Host is up (0.000068s latency).
+
+PORT     STATE SERVICE
+22/tcp   open  ssh
+8080/tcp open  http-proxy
+| http-slowloris-check: 
+|   VULNERABLE:
+|   Slowloris DOS attack
+|     State: LIKELY VULNERABLE
+|     IDs:  CVE:CVE-2007-6750
+|       Slowloris tries to keep many connections to the target web server open and hold
+|       them open as long as possible.  It accomplishes this by opening connections to
+|       the target web server and sending a partial request. By doing so, it starves
+|       the http server's resources causing Denial Of Service.
+|       
+|     Disclosure date: 2009-09-17
+|     References:
+|       http://ha.ckers.org/slowloris/
+|_      https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2007-6750
+| http-enum: 
+|_  /icons/: Potentially interesting folder
+
+# Nmap done at Thu Dec 26 14:12:57 2024 -- 1 IP address (1 host up) scanned in 545.67 seconds

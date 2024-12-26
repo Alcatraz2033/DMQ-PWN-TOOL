@@ -120,7 +120,7 @@ vuln_scann(){
 sniffing(){
 	echo -e "\n[${ORANGE}PI-013 | PI-015${END}] ${BLUE}CAPTURA DE INFORMACION SENSIBLE EN LA RED (SNIFFING)${END}"
 	echo -e "[${MAGENTA}INFO${END}] SNIFFING DE DATOS SENSIBLES POR ${MAGENTA}HTTP${END}"
-	xterm -hold -title 'Sniffing de Red' -e "tshark -i $2 -Y 'http.request' -T fields -e http.host -e http.request.uri -e http.file_data -e http.authorization 2>/dev/null"
+	xterm -hold -title 'Sniffing de Red' -e "tshark -i $2 -Y 'http.request' -T fields -e http.host -e http.request.uri -e http.file_data -e http.authorization 2>/dev/null" &
 }
 
 spoofing(){
