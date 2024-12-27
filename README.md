@@ -65,4 +65,3 @@ Cabe destacar que algunas pruebas no pudieron implementarse en su totalidad debi
 | PI-035 | Ataques sobre componentes JAVA/ActiveX, Flash y AJAX.                                                                                                                                                 | SI           | -                                             |
 | PI-036 | Ataques Command Execution.                                                                                                                                                                            | SI           | -                                             |
 | PI-037 | Verificación y Explotación Controlada de las Vulnerabilidades.                                                                                                                                        | SI           | -                                             |
-
