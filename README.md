@@ -20,6 +20,7 @@ Antes de utilizar la herramienta es necesario instalar las dependencias correspo
 - **macchanger**
 - **net-tools**
 - **curl**
+- **nmcli**
 ## Tabla Pruebas Internas
 
 La tabla a continuación presenta cada uno de los lineamientos o pruebas que deben seguirse en las auditorías internas. Cada código identificador corresponde a un tipo de prueba, el cual se detalla durante la ejecución de la herramienta. En el apartado de generación de evidencias, el programa almacena todos los datos de las pruebas en bruto dentro de la carpeta **evidence**. Alternativamente, el propio _output_ mostrado en consola constituye una evidencia más procesada y detallada.
