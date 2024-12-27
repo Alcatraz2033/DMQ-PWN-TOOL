@@ -7,7 +7,7 @@ Esta herramienta ha sido especialmente diseñada para automatizar el listado de 
 
 ## Instrucciones
 
-Utilize el parámetro `-h` para desplegar el manual de ayuda, dentro del mismo se encuentran las opciones:
+Ejecute este *script* como **root** y utilize el parámetro `-h` para desplegar el manual de ayuda, dentro del mismo se encuentran las opciones:
 -  **-h**: Muestra este panel de ayuda.
 -  **-t**: Especifica el target objetivo.
 -  **-i**: Especifica la interfaz de red para el sniffing.
