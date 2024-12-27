@@ -13,7 +13,7 @@ Ejecute este *script* como **root** y utilize el parámetro `-h` para desplegar 
 -  **-i**: Especifica la interfaz de red para el sniffing.
 ## Dependencias
 
-Antes de utilizar la herramienta es necesario instalar las dependencias correspondientes para que el mismo funcione en su totalidad. Cada una de estas puede ser instalada utilizando el comando *supo apt install \<NOMBRE DE LA DEPENDENCIA\>* dependiendo si se encuentra en alguna distribución de Linux basada en *Debian* o *Ubuntu*.
+Antes de utilizar la herramienta es necesario instalar las dependencias correspondientes para que el mismo funcione en su totalidad. Cada una de estas puede ser instalada utilizando el comando *sudo apt install \<NOMBRE DE LA DEPENDENCIA\>* dependiendo si se encuentra en alguna distribución de Linux basada en *Debian* o *Ubuntu*.
 - **nmap**
 - **tshark**
 - **whatweb**
