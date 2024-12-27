@@ -47,8 +47,8 @@ ${RED}▓█████▄  ███▄ ▄███▓  █████      
 helpPanel(){
 	echo -e "\n[${MAGENTA}INFO${END}] PARAMETROS PARA EL USO DE LA HERRAMIENTA:\n"
 	echo -e "\t[${RED}-h${END}] ${BLUE}Muestra este panel de ayuda.${END}"
-	echo -e "\t[${RED}-t${END}] ${BLUE}Espesifica el tarjet objetivo.${END}"
-	echo -e "\t[${RED}-i${END}] ${BLUE}Espesifica la interfaz de red para el sniffing.${END}"
+	echo -e "\t[${RED}-t${END}] ${BLUE}Especifica el target objetivo.${END}"
+	echo -e "\t[${RED}-i${END}] ${BLUE}Especifica la interfaz de red para el sniffing.${END}"
 	exit 1
 }
 
@@ -103,7 +103,7 @@ web_identification(){
 }
 
 vuln_scann(){
-	echo -e "\n[${ORANGE}PI-009 | PI-018 | PI-019 | PI-020 | PI-024 | PI-034 | PI-035 | PI-036 | PI-037${END}] ${BLUE}IDENTIFICACION Y ESCANEO DE VULNERABILIDADES${END}"
+	echo -e "\n[${ORANGE}PI-001 | PI-009 | PI-018 | PI-019 | PI-020 | PI-024 | PI-034 | PI-035 | PI-036 | PI-037${END}] ${BLUE}IDENTIFICACION Y ESCANEO DE VULNERABILIDADES${END}"
 	echo -e "[${MAGENTA}INFO${END}] ESCANEANDO VULNERABILIDADES COMUNES${END}"
 	ports=$(cat evidence/ports_$1 | grep "tcp" | awk '{print $1}' | grep -vi not | sed 's#/tcp##' | paste -sd ',')
 	nmap --script vuln -p $ports $1 -oN evidence/vulns_$1 &>/dev/null
