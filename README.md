@@ -1,5 +1,5 @@
 # Bienvenido a DMQ PWN TOOL
-Esta herramienta ha sido especialmente diseñada para automatizar el listado de requerimientos de pruebas a realizar en las auditorías de seguridad internas de DMQ. Su principal objetivo es simplificar el trabajo de los auditores de seguridad al recopilar la mayoría de las pruebas de explotación, generandoevidencias concretas que pueden ser utilizadas posteriormente en los informes técnicos.
+Esta herramienta ha sido especialmente diseñada para automatizar el listado de requerimientos de pruebas a realizar en las auditorías de seguridad internas de DMQ. Su principal objetivo es simplificar el trabajo de los auditores de seguridad al recopilar la mayoría de las pruebas de explotación, generando evidencias concretas que pueden ser utilizadas posteriormente en los informes técnicos.
 
 <p align="center">
 	<img src="https://i.imgur.com/n9ukLuA.png" width="100%" height="100%" align="">
