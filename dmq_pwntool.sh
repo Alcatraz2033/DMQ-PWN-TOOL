@@ -8,12 +8,12 @@ RESETBG="$(printf '\e[0m\n')" END="$(printf '\033[0m\e[0m')"
 
 if [ $(id -u) -ne "0" ];then
     echo -e "\n[${RED}FAIL${END}]${RED} Ejecute este script como root.${END}"
-    pkill xterm
     exit 1
 fi 
 
 ctrl_c(){
     echo -e "\n[${RED}FAIL${END}] ${RED}SALIENDO...${END}\n"
+    pkill xterm
     exit 1
 }
 trap ctrl_c INT
