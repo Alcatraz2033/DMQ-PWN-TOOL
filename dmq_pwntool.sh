@@ -51,7 +51,7 @@ helpPanel(){
 
 port_scann(){
 	echo -e "[${ORANGE}PI-002 PI-003${END}] ${BLUE}REALIZANDO EL ESCANEO DE PUERTOS ABIERTOS A LA DIRECCION IP:${END} $1"
-	sudo nmap -p- -sS --min-rate 5000 -n -Pn $1 -oN ports &>/dev/null
+	sudo nmap -p- -sS --min-rate 5000 -n -Pn $1 -oN ports_$1 &>/dev/null
 	cat ports | grep "tcp" | awk '{print $1, $2, $3}' | grep -vi not
 }
 
@@ -99,13 +99,64 @@ web_identification(){
 	fi
 }
 
+vuln_scann(){
+	echo -e "\n[${ORANGE}PI-001 | PI-009 | PI-018 | PI-019 | PI-020 | PI-024 | PI-034 | PI-035 | PI-036 | PI-037${END}] ${BLUE}IDENTIFICACION Y ESCANEO DE VULNERABILIDADES${END}"
+	echo -e "[${MAGENTA}INFO${END}] ESCANEANDO VULNERABILIDADES COMUNES${END}"
+	ports=$(cat ports_$1 | grep "tcp" | awk '{print $1}' | grep -vi not | sed 's#/tcp##' | paste -sd ',')
+	nmap --script vuln -p $ports $1 -oN vulns_$1 &>/dev/null
+	cat vulns_$1 | grep -vi nmap | grep -v '#'
+
+	cat vulns_$1 | grep CVE &>/dev/null
+	if [ $? -eq 0 ];then
+		for i in $(cat evidence/vulns_$1 | grep CVE | grep -oP '\(.*?\)' | tr -d '()');do
+			echo -e "[${MAGENTA}INFO${END}] VEASE: ${MAGENTA}https://nvd.nist.gov/vuln/detail/$i${END}"
+		done 
+	fi
+}
+
+spoofing(){
+	echo -e "\n[${ORANGE}PI-014${END}] ${BLUE}MAC SPOOFING${END}"
+	# Mostrar dirección MAC actual
+	echo -e "[${MAGENTA}INFO${END}] Dirección MAC actual de $1:"
+	ifconfig $1 | grep -i ether
+
+	# Desactivar la interfaz antes de cambiar la MAC
+	echo -e "[${MAGENTA}INFO${END}] Desactivando la interfaz $1..."
+	sudo ifconfig $1 down
+
+	# Cambiar la dirección MAC a una aleatoria usando macchanger
+	echo -e "[${MAGENTA}INFO${END}] Cambiando la dirección MAC de $1..."
+	sudo macchanger -r $1
+
+	# Volver a activar la interfaz
+	echo -e "[${MAGENTA}INFO${END}] Activando la interfaz $1..."
+	sudo ifconfig $1 up
+
+	# Mostrar la nueva dirección MAC
+	echo -e "[${MAGENTA}INFO${END}] Nueva dirección MAC de $1:"
+	ifconfig $1 | grep -i ether
+
+	# Verificar la conexión a internet con curl
+	sleep 3
+	echo -e "[${MAGENTA}INFO${END}] Verificando conexión a Internet..."
+	curl -s https://www.google.com &>/dev/null
+
+	# Comprobar el código de estado de la respuesta
+	if [ $? -eq 0 ]; then
+	    echo -e "[${GREEN}SUCCESS${END}] Spoofing exitoso. Conexión a Internet verificada."
+	else
+	    echo -e "[${RED}FAIL${END}] Spoofing fallido. No se puede verificar la conexión a Internet."
+	fi
+}
 
 process(){
 	banner
 	port_scann $1
+	vuln_scann $1
 	os_discovery $1
 	show_wifi
 	web_identification $1
+	spoofing $1
 }
 
 parameter_counter=0; while getopts "t:h" arg; do
