@@ -52,7 +52,7 @@ helpPanel(){
 port_scann(){
 	echo -e "[${ORANGE}PI-002 PI-003${END}] ${BLUE}REALIZANDO EL ESCANEO DE PUERTOS ABIERTOS A LA DIRECCION IP:${END} $1"
 	sudo nmap -p- -sS --min-rate 5000 -n -Pn $1 -oN ports_$1 &>/dev/null
-	cat ports | grep "tcp" | awk '{print $1, $2, $3}' | grep -vi not
+	cat ports_$1 | grep "tcp" | awk '{print $1, $2, $3}' | grep -vi not
 }
 
 os_discovery(){
