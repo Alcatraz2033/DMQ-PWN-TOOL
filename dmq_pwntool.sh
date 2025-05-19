@@ -51,7 +51,7 @@ helpPanel(){
 
 port_scann(){
 	echo -e "[${ORANGE}PI-002 PI-003${END}] ${BLUE}REALIZANDO EL ESCANEO DE PUERTOS ABIERTOS A LA DIRECCION IP:${END} $1"
-	sudo nmap -p- -sS --min-rate 5000 -n -Pn $1 -oN ports_$1 &>/dev/null
+	sudo nmap -p- -sS --min-rate 5000 -sS -n -Pn $1 -oN ports_$1 &>/dev/null
 	cat ports_$1 | grep "tcp" | awk '{print $1, $2, $3}' | grep -vi not
 }
 
@@ -84,9 +84,9 @@ show_wifi(){
 
 web_identification(){
     echo -e "\n[${ORANGE}PI-006${END}] ${BLUE}IDENTIFICACION Y EXPLORACION DE APLICACIONES WEB${END}"
-	cat ports | grep "http" &>/dev/null
+	cat ports_$1 | grep "http" &>/dev/null
 	if [ $? -eq 0 ];then
-		http_ports=$(cat ports | grep "http" | awk '{print $1, $3}' | grep -vi not | grep http | awk -F '/' '{print $1}')
+		http_ports=$(cat ports_$1 | grep "http" | awk '{print $1, $3}' | grep -vi not | grep http | awk -F '/' '{print $1}')
 
 		for i in $http_ports;do
 			if [ $i -eq 443 ];then
